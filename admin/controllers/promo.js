@@ -157,6 +157,7 @@ export const deletepromotion = async (req, res) => {
                 message: "Promotion Doesn't Exists !!"
             });
         }
+
         if (data.length > 0) {
             const result = await promos.deleteOne({ _id: req.params.id })
             return res.status(200).json({

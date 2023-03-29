@@ -5,7 +5,7 @@ import feedback from "../models/feedback.js";
 
 
 export const addfeedback = async (req, res) => {
-    const { name,email, query } = req.body;
+    const { name, email, query } = req.body;
     // console.log(req.body, 'serviceImage');
 
     if (!name) {
@@ -27,7 +27,7 @@ export const addfeedback = async (req, res) => {
         });
     }
     try {
-       
+
         const result = await feedback.create({
             name,
             email,
@@ -35,6 +35,23 @@ export const addfeedback = async (req, res) => {
         });
 
         res.status(200).json({ result, status: 200 });
+    } catch (error) {
+        res.status(500).json({ message: "Something Went Wrong" });
+        console.log(error);
+    }
+};
+
+export const allfeedback = async (req, res) => {
+    try {
+        const allfeedback = await feedback.find({});
+        //console.log(allproduct);
+        if (!allfeedback) {
+            return res.status(200).json({
+                status: 400,
+                message: "Feebacks Doesn't Exists !!",
+            });
+        }
+        res.status(200).json({ result: allfeedback, status: 200 });
     } catch (error) {
         res.status(500).json({ message: "Something Went Wrong" });
         console.log(error);

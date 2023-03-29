@@ -12,7 +12,9 @@ import { addcompany } from '../controllers/company.js';
 import { notificationbyUser } from '../controllers/notification.js';
 import { addproductorder, allproductorder, assignvendorprovider, getProductOrderByAssignedId, getProductOrderById, setproductorderstatus } from '../controllers/productorder.js';
 import { addserviceproviderequest } from '../../users/controllers/serviceProvider.js';
-import { addfeedback } from '../controllers/feedback.js';
+import { addfeedback, allfeedback } from '../controllers/feedback.js';
+import { addbannerimg, allappbanner, deleteappbanner } from '../controllers/appbanner.js';
+import { addoffer, alloffers, deleteoffer } from '../controllers/offers.js';
 
 
 //authentication
@@ -73,5 +75,19 @@ router.get("/notification/:id", notificationbyUser)
 
 //feedback
 router.post("/feedback", addfeedback)
+router.get("/allfeedback", allfeedback)
 
+
+
+//AppBanner
+
+router.get("/allbanners", allappbanner)
+router.post("/addbanner", addbannerimg)
+router.delete("/deletebanner/:id", deleteappbanner)
+
+
+//
+router.get("/alloffers", alloffers)
+router.post("/addoffer", addoffer)
+router.delete("/deleteoffer/:id", deleteoffer)
 export default router;

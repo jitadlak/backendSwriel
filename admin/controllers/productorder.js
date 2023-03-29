@@ -4,8 +4,7 @@ import notification from "../models/notification.js";
 import productOrder from "../models/productOrder.js";
 import FCM from "fcm-node/lib/fcm.js";
 import vendor from "../../users/models/vendor.js";
-var serverKey =
-    "AAAATkrD4Mw:APA91bGTcbqtrEqYGFMSsOD6zQT_yXW2nXHTUL7pTVGdZNNt8lWsiLUeM7NhF3xW__GZxCBroQzYV0WlJThtD_gxv90se3qr0J56u71MdvmJzOr0ddkhUaWeOSm5JSFdMgL2voea9UPt";
+var serverKey = 'AAAATkrD4Mw:APA91bGTcbqtrEqYGFMSsOD6zQT_yXW2nXHTUL7pTVGdZNNt8lWsiLUeM7NhF3xW__GZxCBroQzYV0WlJThtD_gxv90se3qr0J56u71MdvmJzOr0ddkhUaWeOSm5JSFdMgL2voea9UPt';
 var fcm = new FCM(serverKey);
 
 export const addproductorder = async (req, res) => {
@@ -92,12 +91,9 @@ export const addproductorder = async (req, res) => {
             longitude,
             userId: user._id,
         });
-        await notification.create({
-            notificationTitle: "Your Order Placed Successfully !!",
-            notificationDescription: `Your product order Has Been Booked of amount ${TotalAmount}, We will Processing Your Order. `,
-            toId: user._id,
-        });
+        console.log(user, 'device token')
         var message = {
+
             //this may vary according to the message type (single recipient, multicast, topic, et cetera)
             to: user.device_token,
             collapse_key: "your_collapse_key",
@@ -121,7 +117,12 @@ export const addproductorder = async (req, res) => {
                 console.log("Successfully sent with response: ", response);
             }
         });
-        return res.status(200).json({ result, status: 200 });
+        await notification.create({
+            notificationTitle: "Your Order Placed Successfully !!",
+            notificationDescription: `Your product order Has Been Booked of amount ${TotalAmount}, We will Processing Your Order. `,
+            toId: user._id,
+        });
+        res.status(200).json({ result, status: 200 });
     } catch (error) {
         res.status(500).json({ message: "Something Went Wrong" });
         console.log(error);
