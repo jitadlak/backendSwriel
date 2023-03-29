@@ -116,12 +116,7 @@ export const providersignup = async (req, res) => {
             message: "Membership Is Required",
         });
     }
-    if (!IDDocument) {
-        return res.status(200).json({
-            status: 401,
-            message: "ID Document Is Required",
-        });
-    }
+
     try {
         const oldUser = await serviceprovider.findOne({ email });
 

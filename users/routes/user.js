@@ -1,5 +1,5 @@
 import express from 'express';
-import { addbankaccount } from '../controllers/bankaccounts.js';
+import { addbankaccount, allbankdetails, getbankdetailbyid } from '../controllers/bankaccounts.js';
 import { addserviceproviderequest, getallserviceprovider, getallserviceproviderrequest, getassignedserviceorder, providersignin, providersignup, providerVerify, updateproviderbalance } from '../controllers/serviceProvider.js';
 
 const router = express.Router();
@@ -38,5 +38,7 @@ router.get("/provider/allrequests", getallserviceproviderrequest)
 
 
 router.post("/bankadd", addbankaccount);
+router.get("/allbanks", allbankdetails);
+router.get("/bankbyid/:id", getbankdetailbyid)
 
 export default router;
