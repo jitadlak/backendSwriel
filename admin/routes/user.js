@@ -8,7 +8,7 @@ import auth from "../middleware/auth.js";
 import { addpromos, allpromos, assignPromo, deletepromotion, promocodeVerify } from '../controllers/promo.js';
 import { addproduct, addproductcategory, addproductList, allproductcategory, allproducts, allproductsList, caterogybyproduct, deleteproduct, deleteproductcategory, productListbycategory, productListVendor } from '../controllers/product.js';
 import { addserviceorder, allserviceorder, assignserviceprovider, getServiceOrderById, setserviceorderstatus } from '../controllers/serviceorder.js';
-import { addcompany } from '../controllers/company.js';
+import { addcompany, allCompany } from '../controllers/company.js';
 import { notificationbyUser } from '../controllers/notification.js';
 import { addproductorder, allproductorder, assignvendorprovider, getProductOrderByAssignedId, getProductOrderById, setproductorderstatus } from '../controllers/productorder.js';
 import { addserviceproviderequest } from '../../users/controllers/serviceProvider.js';
@@ -50,6 +50,7 @@ router.delete("/deleteproduct/:id", deleteproduct)
 router.post("/addproductcategory", addproductcategory)
 router.get("/allproductcategory", allproductcategory)
 router.post("/addcompany", addcompany)
+router.post("/allcompany", allCompany)
 router.post("/addProductList", addproductList)
 router.delete("/deleteproductcategory/:id", deleteproductcategory)
 router.get("/productcategory/:id", caterogybyproduct)

@@ -7,11 +7,12 @@ import userRouter from "./users/routes/user.js";
 import multer from "multer";
 import path from "path";
 import dotenv from "dotenv";
-// const accountSid = '***********************************'
-// const authToken = '***********************************'
-// const serviceId = '***********************************'
-// const twilio = require('twilio')
-// const client = new twilio(accountSid, authToken)
+import twilio from "twilio";
+const accountSid = 'AC6ae85b5b94d0f0f95fe2371f01acc85e'
+const authToken = '81742035bc4478c30a73df7d4b8729c1'
+const serviceId = 'VAada1fef0ff9ef84ef2544a43965b70c5'
+
+const client = new twilio(accountSid, authToken)
 dotenv.config();
 
 const app = express();
@@ -55,30 +56,38 @@ app.post("/imageupload", diskStorage.single("image"), async (req, res) => {
     }
 });
 
-// app.get('/verify/:to', async (req, res) => {
-//     const to = req.params.to
-  
-//     client.verify
-//       .services(serviceId)
-//       .verifications.create({ to, channel: 'sms' })
-//       .then((verification) => {
-//         res.json(verification)
-//       })
-//       .catch((err) => {
-//         res.json(err)
-//       })
-//   })
-  
-//   app.get('/check/:to/:code', async (req, res) => {
-//     const to = req.params.to
-//     const code = req.params.code
-//     client.verify
-//       .services(serviceId)
-//       .verificationChecks.create({ to, code })
-//       .then((verification) => {
-//         res.json(verification)
-//       })
-//       .catch((err) => {
-//         res.json(err)
-//       })
-//   })
+app.get('/login', async (req, res) => {
+    const to = req.params.to
+    console.log('hi')
+    client.verify
+        .services(serviceId)
+        .verifications.create({
+            to: `+${req.query.to}`
+            , channel: 'sms'
+        })
+        .then((verification) => {
+            res.json(verification)
+        })
+        .catch((err) => {
+            res.json(err)
+        })
+})
+
+app.get('/verify', async (req, res) => {
+    // const to = req.params.to
+    // const code = req.params.code
+    client.verify
+        .services(serviceId)
+        .verificationChecks.create(
+            {
+                to: `+${req.query.to}`
+                , code: req.query.code
+            }
+        )
+        .then((verification) => {
+            res.json(verification)
+        })
+        .catch((err) => {
+            res.json(err)
+        })
+})

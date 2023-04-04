@@ -126,12 +126,12 @@ export const vendorsignup = async (req, res) => {
     }
 
     try {
-        const oldUser = await vendor.findOne({ email });
+        const oldUser = await vendor.findOne({ phone });
 
         if (oldUser) {
             return res.status(200).json({
                 status: 401,
-                message: "Vendor Already Exists",
+                message: "Vendor Phone No Already Registered !! Please Login",
             });
         }
         // const hashedPassword = await bcrypt.hash(password, 12);

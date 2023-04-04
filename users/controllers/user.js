@@ -162,12 +162,12 @@ export const signup = async (req, res) => {
         });
     }
     try {
-        const oldUser = await UserModal.findOne({ email });
+        const oldUser = await UserModal.findOne({ phone });
 
         if (oldUser) {
             return res.status(200).json({
                 status: 401,
-                message: "User Already Exists",
+                message: "Phone No. Already Registered !! Please Login",
             });
         }
         // const hashedPassword = await bcrypt.hash(password, 12);

@@ -43,6 +43,53 @@ export const addcompany = async (req, res) => {
     }
 };
 
+export const allCompany = async (req, res) => {
+    try {
+        const allproduct = await company.find({});
+        //console.log(allproduct);
+        if (!allproduct) {
+            return res.status(200).json({
+                status: 400,
+                message: "Companies Doesn't Exists !!"
+            });
+        }
+        res.status(200).json({ result: allproduct, status: 200 });
+    } catch (error) {
+        res.status(500).json({ message: "Something Went Wrong" });
+        console.log(error);
+    }
+};
+
+
+
+export const deleteCompany = async (req, res) => {
+    try {
+        const data = await company.find({ _id: req.params.id });
+        if (!data) {
+            return res.status(200).json({
+                status: 400,
+                message: "Company Doesn't Exists !!"
+            });
+        }
+        if (data.length > 0) {
+            const result = await company.deleteOne({ _id: req.params.id })
+            return res.status(200).json({
+                status: 200,
+                message: "Company Deleted Successfully"
+            });
+        }
+        return res.status(200).json({
+            status: 400,
+            message: "service Doesn't Exists !!"
+        });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+
+
+
 export const allproducts = async (req, res) => {
     try {
         const allproduct = await productModel.find({});
