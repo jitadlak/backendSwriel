@@ -9,7 +9,7 @@ import path from "path";
 import dotenv from "dotenv";
 import twilio from "twilio";
 const accountSid = 'AC6ae85b5b94d0f0f95fe2371f01acc85e'
-const authToken = '81742035bc4478c30a73df7d4b8729c1'
+const authToken = 'cb5aba3c1105d0b32224df4514e7e926'
 const serviceId = 'VAada1fef0ff9ef84ef2544a43965b70c5'
 
 const client = new twilio(accountSid, authToken)
