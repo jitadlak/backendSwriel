@@ -27,7 +27,7 @@ export const addcompany = async (req, res) => {
         if (oldUser) {
             return res.status(200).json({
                 status: 400,
-                message: "already Company exits !",
+                message: "Already Company exits !",
             });
         }
 

@@ -283,17 +283,7 @@ export const setserviceorderstatus = async (req, res) => {
         });
     }
     try {
-        // serviceOrder.findByIdAndUpdate(_id, { $set: serviceProviderId }, { new: true }, function (err, result) {
-        //     if (err) {
-        //         console.log(err);
-        //     }
-        //     console.log("RESULT: " + result);
-        //     res.send('Done')
 
-        // });
-        // console.log(data);
-
-        // res.status(200).json({ result: user, status: 200 });
         const oldOrder = await serviceOrder.findById(_id);
 
         console.log(oldOrder)

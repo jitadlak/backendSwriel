@@ -6,9 +6,9 @@ import { signin, signup } from '../controllers/user.js';
 import { addservice, addcategory, allservices, caterogybyservices, addsubcategories, deleteservice, allservicecategory, deleteservicecategory, allservicesubcategory, deleteservicesubcategory, subcategorybycategory } from '../controllers/service.js';
 import auth from "../middleware/auth.js";
 import { addpromos, allpromos, assignPromo, deletepromotion, promocodeVerify } from '../controllers/promo.js';
-import { addproduct, addproductcategory, addproductList, allproductcategory, allproducts, allproductsList, caterogybyproduct, deleteproduct, deleteproductcategory, productListbycategory, productListVendor } from '../controllers/product.js';
+import { addproduct, addproductcategory, addproductList, allproductcategory, allproducts, allproductsList, caterogybyproduct, deleteproduct, deleteproductcategory, productListbycategory, productListVendor, updateprice } from '../controllers/product.js';
 import { addserviceorder, allserviceorder, assignserviceprovider, getServiceOrderById, setserviceorderstatus } from '../controllers/serviceorder.js';
-import { addcompany, allCompany } from '../controllers/company.js';
+import { addcompany, allCompany, deleteCompany } from '../controllers/company.js';
 import { notificationbyUser } from '../controllers/notification.js';
 import { addproductorder, allproductorder, assignvendorprovider, getProductOrderByAssignedId, getProductOrderById, setproductorderstatus } from '../controllers/productorder.js';
 import { addserviceproviderequest } from '../../users/controllers/serviceProvider.js';
@@ -50,7 +50,8 @@ router.delete("/deleteproduct/:id", deleteproduct)
 router.post("/addproductcategory", addproductcategory)
 router.get("/allproductcategory", allproductcategory)
 router.post("/addcompany", addcompany)
-router.post("/allcompany", allCompany)
+router.get("/allcompany", allCompany)
+router.delete("/deletecompany/:id", deleteCompany)
 router.post("/addProductList", addproductList)
 router.delete("/deleteproductcategory/:id", deleteproductcategory)
 router.get("/productcategory/:id", caterogybyproduct)
@@ -60,6 +61,7 @@ router.post("/productbook", addproductorder)
 router.get("/allproductbooked", allproductorder)
 router.patch("/productAssign", assignvendorprovider)
 router.patch("/productstatus", setproductorderstatus)
+router.patch("/updateprice", updateprice)
 router.get("/userproductorder/:id", getProductOrderById)
 router.get("/vendorassignedorder/:id", getProductOrderByAssignedId)
 //servicebook

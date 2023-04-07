@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import productCategory from "../models/productCategory.js";
 import productcategories from "../models/productCategory.js";
 import productList from "../models/productList.js";
-
+import company from "../models/company.js";
 import productModel from "../models/productModel.js";
 
 export const addproduct = async (req, res) => {
@@ -101,6 +101,7 @@ export const addproductcategory = async (req, res) => {
             message: "productId Is Required",
         });
     }
+
     try {
         const oldUser = await productcategories.findOne({ categoryName });
 
@@ -118,6 +119,7 @@ export const addproductcategory = async (req, res) => {
             categoryName,
             productId,
             productData,
+
         });
 
         return res.status(200).json({ status: 200, result });
@@ -207,16 +209,11 @@ export const addproductList = async (req, res) => {
     //     });
     // }
     try {
-        const oldUser = await productList.findOne({ productName });
+        const oldUser = await company.findById(productCompany);
         const data = await productCategory.findById(productSubcategoryId);
         console.log(data)
 
-        if (oldUser) {
-            return res.status(200).json({
-                status: 400,
-                message: "already Product exits !",
-            });
-        }
+
         if (!data) {
             return res.status(200).json({
                 status: 400,
@@ -230,7 +227,7 @@ export const addproductList = async (req, res) => {
             productTitle,
             productDescription,
             productSubcategory: data,
-            productCompany,
+            productCompany: oldUser,
             productSubcategoryId,
 
         });
@@ -287,7 +284,7 @@ export const productListVendor = async (req, res) => {
 };
 export const allproductsList = async (req, res) => {
     try {
-        const allproduct = await productList.find({});
+        let allproduct = await productList.find({});
         //console.log(allproduct);
         if (!allproduct) {
             return res.status(200).json({
@@ -295,7 +292,9 @@ export const allproductsList = async (req, res) => {
                 message: "Products Doesn't Exists !!",
             });
         }
-        res.status(200).json({ result: allproduct, status: 200 });
+
+
+        return res.status(200).json({ result: allproduct, status: 200 });
     } catch (error) {
         res.status(500).json({ message: "Something Went Wrong" });
         console.log(error);
@@ -324,3 +323,43 @@ export const deleteproductcategory = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+
+export const updateprice = async (req, res) => {
+    const { updatedId, newPrice } = req.body;
+    console.log(newPrice)
+    if (!updatedId) {
+        return res.status(200).json({
+            status: 400,
+            message: "Product Required",
+        });
+    }
+    if (!newPrice) {
+        return res.status(200).json({
+            status: 400,
+            message: "Updated Price Is Required",
+        });
+    }
+    try {
+
+        const oldOrder = await productList.findById(updatedId);
+
+        console.log(oldOrder)
+
+        oldOrder.productPrice = newPrice
+
+        await oldOrder.save()
+
+        // console.log(oldOrder)
+        res.status(200).json({
+            result: {
+                "message": "Price Updated  Successfully"
+            }, status: 200
+        });
+
+
+    } catch (error) {
+        res.status(500).json({ message: "Something Went Wrong" });
+        console.log(error);
+    }
+};

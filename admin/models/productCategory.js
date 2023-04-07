@@ -9,6 +9,10 @@ const productCategorySchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    companyId: {
+        type: String,
+        required: false,
+    },
 
     id: { type: String },
     createdAt: { type: Date, default: Date.now },

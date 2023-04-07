@@ -32,7 +32,7 @@ const productListSchema = mongoose.Schema({
         required: false
     },
     productCompany: {
-        type: String,
+        type: Object,
         required: true
     },
     productSubcategoryId: {
