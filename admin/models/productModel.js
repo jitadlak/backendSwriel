@@ -9,6 +9,10 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    companies: {
+        type: Array,
+        required: true
+    },
 
 
     id: { type: String },

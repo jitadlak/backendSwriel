@@ -7,7 +7,7 @@ import company from "../models/company.js";
 import productModel from "../models/productModel.js";
 
 export const addproduct = async (req, res) => {
-    const { productName, productImage } = req.body;
+    const { productName, productImage, companies } = req.body;
     // console.log(req.body, 'serviceImage');
 
     if (!productName) {
@@ -20,6 +20,12 @@ export const addproduct = async (req, res) => {
         return res.status(200).json({
             status: 400,
             message: "Product Image Is Required",
+        });
+    }
+    if (!companies) {
+        return res.status(200).json({
+            status: 400,
+            message: "Companies Is Required",
         });
     }
     try {
@@ -35,6 +41,7 @@ export const addproduct = async (req, res) => {
         const result = await productModel.create({
             productName,
             productImage,
+            companies
         });
 
         res.status(200).json({ result, status: 200 });
