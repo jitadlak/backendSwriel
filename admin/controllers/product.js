@@ -370,3 +370,42 @@ export const updateprice = async (req, res) => {
         console.log(error);
     }
 };
+
+export const updateproductcategory = async (req, res) => {
+    const { _id, categoryName } = req.body;
+
+    if (!_id) {
+        return res.status(200).json({
+            status: 400,
+            message: "Service Provider Required",
+        });
+    }
+    if (!categoryName) {
+        return res.status(200).json({
+            status: 400,
+            message: "Category Name Is Required",
+        });
+    }
+
+    try {
+        const oldOrder = await productcategories.findById(_id);
+
+        console.log(oldOrder);
+
+        oldOrder.categoryName = categoryName;
+
+
+        await oldOrder.save();
+
+        res.status(200).json({
+            result: {
+                message: "Product Category Updated Successfully !!",
+            },
+
+            status: 200,
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Something Went Wrong" });
+        console.log(error);
+    }
+};

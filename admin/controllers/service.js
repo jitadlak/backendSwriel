@@ -306,3 +306,53 @@ export const deleteservicesubcategory = async (req, res) => {
         res.status(500).json(err);
     }
 }
+export const updatesubcategory = async (req, res) => {
+    const { _id, subcatagoryname, price, description } = req.body;
+
+    if (!_id) {
+        return res.status(200).json({
+            status: 400,
+            message: "Service Provider Required",
+        });
+    }
+    if (!subcatagoryname) {
+        return res.status(200).json({
+            status: 400,
+            message: "Subcategory Name Is Required",
+        });
+    }
+    if (!price) {
+        return res.status(200).json({
+            status: 400,
+            message: "Price Is Required",
+        });
+    }
+    if (!description) {
+        return res.status(200).json({
+            status: 400,
+            message: "Description Is Required",
+        });
+    }
+    try {
+        const oldOrder = await subcategories.findById(_id);
+
+        console.log(oldOrder);
+
+        oldOrder.subcatagoryname = subcatagoryname;
+        oldOrder.price = price;
+        oldOrder.description = description;
+
+        await oldOrder.save();
+
+        res.status(200).json({
+            result: {
+                message: "Subcategory Updated Successfully !!",
+            },
+
+            status: 200,
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Something Went Wrong" });
+        console.log(error);
+    }
+};

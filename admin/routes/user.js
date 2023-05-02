@@ -3,10 +3,10 @@ import express from 'express';
 const router = express.Router();
 
 import { signin, signup } from '../controllers/user.js';
-import { addservice, addcategory, allservices, caterogybyservices, addsubcategories, deleteservice, allservicecategory, deleteservicecategory, allservicesubcategory, deleteservicesubcategory, subcategorybycategory } from '../controllers/service.js';
+import { addservice, addcategory, allservices, caterogybyservices, addsubcategories, deleteservice, allservicecategory, deleteservicecategory, allservicesubcategory, deleteservicesubcategory, subcategorybycategory, updatesubcategory } from '../controllers/service.js';
 import auth from "../middleware/auth.js";
 import { addpromos, allpromos, assignPromo, deletepromotion, promocodeVerify } from '../controllers/promo.js';
-import { addproduct, addproductcategory, addproductList, allproductcategory, allproducts, allproductsList, caterogybyproduct, deleteproduct, deleteproductcategory, productListbycategory, productListVendor, updateprice } from '../controllers/product.js';
+import { addproduct, addproductcategory, addproductList, allproductcategory, allproducts, allproductsList, caterogybyproduct, deleteproduct, deleteproductcategory, productListbycategory, productListVendor, updateprice, updateproductcategory } from '../controllers/product.js';
 import { addserviceorder, allserviceorder, assignserviceprovider, getServiceOrderById, setserviceorderstatus } from '../controllers/serviceorder.js';
 import { addcompany, allCompany, deleteCompany } from '../controllers/company.js';
 import { notificationbyUser } from '../controllers/notification.js';
@@ -60,6 +60,8 @@ router.get("/vendorproductlist/:id", productListVendor)
 router.post("/productbook", addproductorder)
 router.get("/allproductbooked", allproductorder)
 router.patch("/productAssign", assignvendorprovider)
+router.patch("/services/editsubcategory", updatesubcategory)
+router.patch("/product/editcategory", updateproductcategory)
 router.patch("/productstatus", setproductorderstatus)
 router.patch("/updateprice", updateprice)
 router.get("/userproductorder/:id", getProductOrderById)
