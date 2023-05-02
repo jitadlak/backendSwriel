@@ -4,8 +4,8 @@ import { addserviceproviderequest, getallserviceprovider, getallserviceproviderr
 
 const router = express.Router();
 
-import { getalluser, signin, signup } from '../controllers/user.js';
-import { addvendorrequest, getallvendor, getallvendorrequest, getvendorproductList, selectVendorProduct, updatevendorbalance, vendorsignin, vendorsignup } from '../controllers/vendor.js';
+import { getalluser, sendNotificationToUser, signin, signup } from '../controllers/user.js';
+import { addvendorrequest, getallvendor, getallvendorrequest, getvendorproductList, selectVendorProduct, sendNotificationToVendor, updatevendorbalance, vendorsignin, vendorsignup } from '../controllers/vendor.js';
 import auth from "../middleware/auth.js";
 
 
@@ -13,6 +13,7 @@ import auth from "../middleware/auth.js";
 router.post("/signup", signup);
 router.post("/signin", signin);
 router.get('/users', getalluser)
+router.post('/sendnotificationuser', sendNotificationToUser)
 
 
 //vendor
@@ -25,6 +26,7 @@ router.get("/vendor/allproducts/:id", getvendorproductList)
 router.post("/vendor/selectproduct", selectVendorProduct);
 router.patch("/updatewalletvendor", updatevendorbalance)
 router.get("/vendor/allrequests", getallvendorrequest)
+router.post('/sendnotificationvendor', sendNotificationToVendor)
 
 //serviceProvider
 router.post("/provider/signup", providersignup);

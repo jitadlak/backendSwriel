@@ -378,3 +378,49 @@ export const updatevendorbalance = async (req, res) => {
         console.log(error);
     }
 };
+export const sendNotificationToVendor = async (req, res) => {
+    const { id, notificationTitle, notificationData } = req.body;
+    try {
+        const user = await vendor.findById(id);
+
+        console.log(user);
+        if (!user) {
+            return res.status(200).json({
+                status: 400,
+                message: "Vendor Doesn't Exists !!"
+            });
+        }
+
+
+        var message = {
+            to: user.device_token,
+            collapse_key: 'your_collapse_key',
+
+            notification: {
+                title: notificationTitle,
+                body: notificationData
+            },
+
+            data: {  //you can send only notification or only data(or include both)
+                message: 'my value',
+                type: 'my another value'
+            }
+        };
+
+        fcm.send(message, function (err, response) {
+            if (err) {
+                console.log("Something has gone wrong!", err);
+            } else {
+                console.log("Successfully sent with response: ", response);
+            }
+        });
+
+        res.status(200).json({
+            status: 200,
+            message: "Notification Sent Successfully !!"
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Something Went Wrong" });
+        console.log(error);
+    }
+};

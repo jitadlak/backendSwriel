@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 
 import UserModal from "../models/user.js";
 import FCM from "fcm-node/lib/fcm.js";
-var serverKey = 'AAAATkrD4Mw:APA91bGTcbqtrEqYGFMSsOD6zQT_yXW2nXHTUL7pTVGdZNNt8lWsiLUeM7NhF3xW__GZxCBroQzYV0WlJThtD_gxv90se3qr0J56u71MdvmJzOr0ddkhUaWeOSm5JSFdMgL2voea9UPt';
+var serverKey =
+    "AAAATkrD4Mw:APA91bGTcbqtrEqYGFMSsOD6zQT_yXW2nXHTUL7pTVGdZNNt8lWsiLUeM7NhF3xW__GZxCBroQzYV0WlJThtD_gxv90se3qr0J56u71MdvmJzOr0ddkhUaWeOSm5JSFdMgL2voea9UPt";
 var fcm = new FCM(serverKey);
 const secret = "swriel";
 
@@ -43,12 +44,9 @@ const secret = "swriel";
 //         );
 //         const data = await UserModal.findById(oldUser._id);
 
-
-
 //         data.device_token = device_token;
 
 //         await data.save();
-
 
 //         // var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
 //         //     to: device_token,
@@ -73,7 +71,6 @@ const secret = "swriel";
 //         //     }
 //         // });
 
-
 //         res.status(200).json({ result: oldUser, token, status: 200 });
 //     } catch (error) {
 //         res.status(500).json({ message: "Something Went Wrong" });
@@ -86,16 +83,18 @@ export const signin = async (req, res) => {
     if (!phone) {
         return res.status(200).json({
             status: 401,
-            message: "Phone No Is Required",
+            message: "Phone No Is Required"
         });
     }
 
     try {
         const oldUser = await UserModal.findOne({
-            phone,
+            phone
         });
         if (!oldUser) {
-            return res.status(200).json({ message: "User Doesn't Exists !!", status: 401, });
+            return res
+                .status(200)
+                .json({ message: "User Doesn't Exists !!", status: 401 });
         }
 
         // const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
@@ -105,14 +104,10 @@ export const signin = async (req, res) => {
         //         status: 401,
         //     });
         // }
-        const token = jwt.sign(
-            { phone: oldUser.phone, id: oldUser._id },
-            secret,
-            { expiresIn: "60h" }
-        );
+        const token = jwt.sign({ phone: oldUser.phone, id: oldUser._id }, secret, {
+            expiresIn: "60h"
+        });
         const data = await UserModal.findById(oldUser._id);
-
-
 
         data.device_token = device_token;
 
@@ -125,21 +120,14 @@ export const signin = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
-
 export const signup = async (req, res) => {
-    const { email, password, phone, name, image, address, city, state } = req.body;
-
+    const { email, password, phone, name, image, address, city, state } =
+        req.body;
 
     if (!email) {
         return res.status(200).json({
             status: 401,
-            message: "Email Is Required",
+            message: "Email Is Required"
         });
     }
     // if (!password) {
@@ -152,13 +140,13 @@ export const signup = async (req, res) => {
     if (!phone) {
         return res.status(200).json({
             status: 401,
-            message: "phone Is Required",
+            message: "phone Is Required"
         });
     }
     if (!name) {
         return res.status(200).json({
             status: 401,
-            message: "name Is Required",
+            message: "name Is Required"
         });
     }
     try {
@@ -167,7 +155,7 @@ export const signup = async (req, res) => {
         if (oldUser) {
             return res.status(200).json({
                 status: 401,
-                message: "Phone No. Already Registered !! Please Login",
+                message: "Phone No. Already Registered !! Please Login"
             });
         }
         // const hashedPassword = await bcrypt.hash(password, 12);
@@ -181,18 +169,19 @@ export const signup = async (req, res) => {
             image,
             city,
             state
-
         });
 
-        const token = jwt.sign({ email: result.email, _id: result._id }, secret, {
-
-        });
+        const token = jwt.sign(
+            { email: result.email, _id: result._id },
+            secret,
+            {}
+        );
         res.status(200).json({ result, token, status: 200 });
     } catch (error) {
         res.status(500).json({ message: "Something Went Wrong" });
         console.log(error);
     }
-}
+};
 
 export const getalluser = async (req, res) => {
     try {
@@ -212,5 +201,52 @@ export const getalluser = async (req, res) => {
         res.status(500).json({ message: "Something Went Wrong" });
         console.log(error);
     }
+};
 
-}
+
+export const sendNotificationToUser = async (req, res) => {
+    const { id, notificationTitle, notificationData } = req.body;
+    try {
+        const user = await UserModal.findById(id);
+
+        console.log(user);
+        if (!user) {
+            return res.status(200).json({
+                status: 400,
+                message: "Users Doesn't Exists !!"
+            });
+        }
+
+
+        var message = {
+            to: user.device_token,
+            collapse_key: 'your_collapse_key',
+
+            notification: {
+                title: notificationTitle,
+                body: notificationData
+            },
+
+            data: {  //you can send only notification or only data(or include both)
+                message: 'my value',
+                type: 'my another value'
+            }
+        };
+
+        fcm.send(message, function (err, response) {
+            if (err) {
+                console.log("Something has gone wrong!", err);
+            } else {
+                console.log("Successfully sent with response: ", response);
+            }
+        });
+
+        res.status(200).json({
+            status: 200,
+            message: "Notification Sent Successfully !!"
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Something Went Wrong" });
+        console.log(error);
+    }
+};
